@@ -201,7 +201,7 @@ nav {
   padding: 6rem;
   position: relative;
   z-index: 2;
-  maxWidth: 750px;
+  max-width: 750px;
   width: 100%;
 }
 
@@ -320,6 +320,14 @@ nav {
   font-weight: 300;
   line-height: 1.15;
   color: var(--text-light);
+}
+
+.section-desc {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-bottom: 3rem;
 }
 
 .section-divider {
@@ -621,6 +629,105 @@ nav {
   left: 0;
   color: var(--accent-color);
   font-weight: bold;
+}
+
+/* CASE STUDIES (PROJECTS) GRID & CARD STYLE */
+.projects-grid-resp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 2.5rem;
+  border-radius: 12px;
+  transition: border-color .25s, transform .25s, box-shadow .25s, background-color 0.25s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ec4899, #f9a8d4);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent-color) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px var(--shadow-color);
+  background-color: var(--bg-hover);
+}
+
+.project-card:hover::after {
+  transform: scaleX(1);
+}
+
+.project-tag {
+  background: var(--active-tab-bg);
+  color: var(--accent-color);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+}
+
+.project-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.6rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+}
+
+.project-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.project-link {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: color 0.25s;
+  align-self: flex-start;
+}
+
+.project-link:hover {
+  color: var(--accent-hover);
+}
+
+/* CONFIDENTIALITY WARNING BANNER */
+.confidentiality-banner {
+  border-left: 4px solid var(--accent-color);
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 32px;
+}
+
+.confidentiality-banner p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
 }
 
 /* EDUCATION CARDS */
@@ -991,6 +1098,23 @@ footer {
 }
 
 .mobile-nav-link:hover {
+  color: var(--accent-color);
+}
+
+/* MOBILE CLOSE BUTTON */
+.mobile-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.mobile-close-btn:hover {
   color: var(--accent-color);
 }
 

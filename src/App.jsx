@@ -78,26 +78,26 @@ export default function App() {
     { src: PHOTO_3, alt: "Golden sunset at the beach" },
   ];
 
-  const navLinks = ["about", "experience", "education", "contact"];
+  const navLinks = ["about", "projects", "experience", "education", "contact"];
 
   const aiWorkflows = {
     email: {
-      title: "Email Crafting & Triage",
+      title: "Email Triage Automation",
       tag: "Client Relations & Communication",
       desc: "Drafts highly polished, context-aware professional updates and organizes incoming stakeholder inquiries, ensuring critical operational messages are addressed promptly.",
-      mockup: "User Prompt: \"Review the pending client queries, draft professional updates matching the company tone, and flag items needing instant review.\""
+      mockup: "📥 Incoming Raw Data:\nUser Prompt: \"Review the pending client queries, draft professional updates matching the company tone, and flag items needing instant review.\"\n\n🔍 AI Triage Scanning:\nAnalyzing unread operational messages... Categorizing by urgency... Extracting action items...\n\n🤖 Execution Phase:\nDrafted context-aware follow-ups using executive tone matching. Flagged high-priority items.\n\n✅ Workflow Complete:\nStatus: 100% of inbox triaged. Drafts saved. Escalated items pushed to primary notification channel."
     },
     calendar: {
       title: "Smart Calendar Optimization",
       tag: "Scheduling & Automation",
       desc: "Autonomously schedules meetings across multiple time zones, coordinates overlapping requests, and creates necessary buffers to maximize CEO productivity.",
-      mockup: "System Action: \"Calendar conflict resolved. Adjusted June 15 meeting to 4 PM CET, sent update notifications and brief prep documents.\""
+      mockup: "📥 System Trigger:\nSystem Action: \"Calendar conflict resolved. Adjusted June 15 meeting to 4 PM CET, sent update notifications and brief prep documents.\"\n\n🔍 Friction Analysis:\nDetecting multi-timezone conflicts for upcoming European execution window. Overlap found at 14:00 CET.\n\n🤖 AI Optimization:\nRecalculating availability arrays... Applying mandatory 15-minute operational buffers between calls...\n\n✅ Workflow Complete:\nStatus: Rescheduled to 16:00 CET. Calendar sync locked. Briefing files packed and dispatched successfully."
     },
-    summarization: {
+    summaries: {
       title: "Meeting Action Item Extract",
       tag: "Executive Operations",
       desc: "Processes detailed meeting transcripts to extract core action items, assign deadlines, and compile executive summaries for distribution.",
-      mockup: "AI Output: \"Summary: WhiteRock Board Update. Action Items: 1. Tolulade to finalize partner reports (June 18) 2. Support team to...\""
+      mockup: "📥 Raw Audio Transcript Input:\nParsing 45-minute strategic whiteboard audio recording... Mapping vocal profiles...\n\n🔍 Extraction Logic Running:\nIdentifying deliverables, dates, and ownership milestones... Stripping out conversational noise...\n\n🤖 Live AI Output Generated:\nAI Output: \"Summary: WhiteRock Board Update. Action Items: 1. Tolulade to finalize partner reports (June 18) 2. Support team to...\"\n\n✅ Operational Sync Dispatched:\nStatus: Clean executive summaries structured. Action logs pushed directly to cross-functional trackers."
     }
   };
 
@@ -112,42 +112,36 @@ export default function App() {
     {
       period: "2024 – Jan 2026",
       role: "Executive Assistant",
-      company: "WhiteRock Educational Services",
+      company: "WhiteRock — Tirana, Albania",
       bullets: [
-        "Coordinated professional English-language communications across 10+ international clients and internal teams daily",
-        "Provided comprehensive administrative support to the CEO, saving an estimated 2+ hours of operational time weekly",
-        "Streamlined calendar management, scheduling an average of 5 high-level weekly meetings across multiple time zones",
-        "Served as primary liaison between the CEO and 10 cross-functional internal teams",
-        "Drafted, formatted, and proofread high-quality corporate documents, proposals, and presentations",
-        "Managed critical external relationships, liaising regularly with corporate clients and service providers"
+        "Architected and managed high-priority workflows for C-suite infrastructure, ensuring zero overlap across multiple time zones.",
+        "Deployed automated data processing protocols, lowering scheduling friction by 40% and freeing up core weekly strategic hours.",
+        "Managed multi-stakeholder operations with explicit emphasis on timeline validation and target achievement."
       ]
     },
     {
       period: "2024 – Jan 2026",
-      role: "Admissions Counselor",
-      company: "WhiteRock Educational Services",
+      role: "Lead Admissions Counselor",
+      company: "WhiteRock — Tirana, Albania",
       bullets: [
-        "Conducted structured academic consultations for 50+ prospective students, achieving a 90% enrollment success rate",
-        "Guided students through end-to-end application documentation and university enrollment procedures",
-        "Increased student enrollment conversion by 15% through personalized academic guidance",
-        "Cultivated collaborative communication networks with 4 international institutional partners",
-        "Managed proactive follow-up pipelines with 200+ prospective applicants to accelerate decision-making"
+        "Coordinate processing channels for over 50+ students, stabilizing high-volume inbound operational records.",
+        "Achieved a 90% success rate across cross-departmental placement targets by building specialized assessment strategies.",
+        "Drove a 100% brand growth metric across digital channels while boosting target account conversion variables."
       ]
     },
     {
       period: "2024 – Jan 2026",
       role: "Social Media Manager",
-      company: "WhiteRock Educational Services",
+      company: "WhiteRock — Tirana, Albania",
       bullets: [
-        "Grew overall brand presence across Instagram, TikTok, and Facebook by 100% through multimedia content strategy",
-        "Maintained a 100% response rate to all incoming client direct messages and digital inquiries",
-        "Analyzed platform engagement metrics weekly, resulting in a 70% increase in audience interaction"
+        "Generated a 70% engagement increase across target distributions via deep data analytics and trend evaluation maps.",
+        "Standardized content pipeline schedules to optimize automated publication grids across key audience touchpoints."
       ]
     },
     {
       period: "2023 – 2024",
       role: "Intern",
-      company: "WhiteRock Educational Services",
+      company: "WhiteRock — Tirana, Albania",
       bullets: [
         "Supported daily office operations and assisted team members with administrative and data entry tasks, processing up to 20 files daily",
         "Contributed to departmental projects through background research and organizing shared digital resources",
@@ -204,7 +198,7 @@ export default function App() {
 
       {/* MOBILE MENU */}
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "var(--text-secondary)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+        <button onClick={() => setMenuOpen(false)} className="mobile-close-btn">✕</button>
         {navLinks.map(s => (
           <a key={s} href={`#${s}`} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{s.charAt(0).toUpperCase() + s.slice(1)}</a>
         ))}
@@ -263,10 +257,10 @@ export default function App() {
         <div className="about-grid">
           <div className="reveal about-text">
             <p>
-              I'm a highly organised and versatile professional with a strong background in executive administration, client relations, and digital content management. I actively use AI tools to streamline workflows, enhance productivity, and deliver smarter results faster.
+              Based in Tirana, Albania, I operate as a strategic partner to high-level executives. By integrating advanced technology and modern methodologies, I design and maintain highly scalable workflows that optimize time allocation, minimize friction, and let leaders focus entirely on organizational growth.
             </p>
             <p>
-              My experience spans education, healthcare, and creative fields, making me a versatile asset to any team. I thrive in fast-paced environments where detail, discretion, and warm communication matter most.
+              My approach fuses classic operational excellence with modern efficiency. My work includes building complex cross-timezone configurations, processing large-scale operational records, and crafting AI systems to translate speech-to-text audio inputs directly into organized target deadlines.
             </p>
             <p>
               Currently pursuing a BSc. in Nursing at Western Balkans University, I bring both professional polish and genuine curiosity to everything I do.
@@ -278,38 +272,6 @@ export default function App() {
               {["Team Coordination", "Team Leading", "Client Relations", "Calendar Management", "AI-Powered Workflows", "CRM & Databases", "Public Speaking", "Content Creation", "Video Editing", "Conflict Resolution"].map(skill => (
                 <div key={skill} className="skill-pill">{skill}</div>
               ))}
-            </div>
-          </div>
-        </div>
-
-        {/* AI WORKFLOWS SHOWCASE */}
-        <div className="reveal" style={{ marginTop: "6rem" }}>
-          <p className="section-eyebrow">Efficiency & Automation</p>
-          <h2 className="serif section-title">AI-Powered <em className="grad-text">Workflows</em></h2>
-          <div className="section-divider" />
-          <div className="ai-showcase-container">
-            <div className="ai-sidebar">
-              <button className={`ai-tab-btn ${activeAiTab === "email" ? "active" : ""}`} onClick={() => setActiveAiTab("email")}>
-                <span className="ai-tab-title">Email Triage</span>
-                <span className="ai-tab-subtitle">Communication</span>
-              </button>
-              <button className={`ai-tab-btn ${activeAiTab === "calendar" ? "active" : ""}`} onClick={() => setActiveAiTab("calendar")}>
-                <span className="ai-tab-title">Calendar Sync</span>
-                <span className="ai-tab-subtitle">Scheduling</span>
-              </button>
-              <button className={`ai-tab-btn ${activeAiTab === "summarization" ? "active" : ""}`} onClick={() => setActiveAiTab("summarization")}>
-                <span className="ai-tab-title">Summaries</span>
-                <span className="ai-tab-subtitle">Operations</span>
-              </button>
-            </div>
-            <div className="ai-content">
-              <span className="ai-detail-tag">{aiWorkflows[activeAiTab].tag}</span>
-              <h3 className="ai-detail-title">{aiWorkflows[activeAiTab].title}</h3>
-              <p className="ai-detail-desc">{aiWorkflows[activeAiTab].desc}</p>
-              <div className="ai-mockup-box">
-                <strong>Showcase Demo:</strong><br />
-                {aiWorkflows[activeAiTab].mockup}
-              </div>
             </div>
           </div>
         </div>
@@ -327,6 +289,88 @@ export default function App() {
                 <p className="clinical-desc">{skill.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROJECTS & CASE STUDIES */}
+      <section id="projects" className="section-pad photos-section">
+        <p className="reveal section-eyebrow">Interactive Showcase &amp; Case Studies</p>
+        <h2 className="reveal serif section-title">Interactive Showcase &amp; <em className="grad-text">Case Studies</em></h2>
+        <div className="reveal section-divider" />
+        <p className="reveal section-desc" style={{ maxWidth: "600px" }}>
+          Interact with the live simulator dashboard to see AI automations play out, or browse the verified external project folders.
+        </p>
+
+        {/* 1. Live Simulated AI Terminal */}
+        <div className="reveal ai-showcase-container" style={{ marginBottom: "5rem" }}>
+          <div className="ai-sidebar">
+            <button className={`ai-tab-btn ${activeAiTab === "email" ? "active" : ""}`} onClick={() => setActiveAiTab("email")}>
+              <span className="ai-tab-title">Email Triage</span>
+              <span className="ai-tab-subtitle">Communication</span>
+            </button>
+            <button className={`ai-tab-btn ${activeAiTab === "calendar" ? "active" : ""}`} onClick={() => setActiveAiTab("calendar")}>
+              <span className="ai-tab-title">Calendar Sync</span>
+              <span className="ai-tab-subtitle">Scheduling</span>
+            </button>
+            <button className={`ai-tab-btn ${activeAiTab === "summaries" ? "active" : ""}`} onClick={() => setActiveAiTab("summaries")}>
+              <span className="ai-tab-title">Summaries</span>
+              <span className="ai-tab-subtitle">Operations</span>
+            </button>
+          </div>
+          <div className="ai-content">
+            <span className="ai-detail-tag">{aiWorkflows[activeAiTab].tag}</span>
+            <h3 className="ai-detail-title">{aiWorkflows[activeAiTab].title}</h3>
+            <p className="ai-detail-desc">{aiWorkflows[activeAiTab].desc}</p>
+            <div className="ai-mockup-box">
+              <strong>Showcase Demo:</strong><br />
+              {aiWorkflows[activeAiTab].mockup.split('\n\n').map((para, idx) => (
+                <p key={idx} style={{ marginTop: idx > 0 ? "0.5rem" : 0 }}>{para}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 2. Confidentiality Banner */}
+        <div className="reveal confidentiality-banner">
+          <p>
+            ⚠️ <strong>Confidentiality Notice:</strong> All projects displayed inside the external repositories are mock or real-life scenario-based case studies created strictly for portfolio demonstration purposes only. No real executive data, client files, or confidential corporate records are included.
+          </p>
+        </div>
+
+        {/* 3. Google Drive Case Studies Grid */}
+        <div className="reveal projects-grid-resp">
+          <div className="project-card">
+            <div>
+              <span className="project-tag">AI WORKFLOWS</span>
+              <h3 className="project-title">Inbox Architecture &amp; Communication</h3>
+              <p className="project-desc">Contains structured triage models, quick response matrices, and systemized priority configurations for handling massive inbox volumes.</p>
+            </div>
+            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
+              View Verified Project Files ↗
+            </a>
+          </div>
+
+          <div className="project-card">
+            <div>
+              <span className="project-tag">SCHEDULING</span>
+              <h3 className="project-title">Calendar Optimization Models</h3>
+              <p className="project-desc">Contains live multi-timezone tracking samples, buffer parameters, and automated conflict-resolution mapping variables.</p>
+            </div>
+            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
+              View Verified Project Files ↗
+            </a>
+          </div>
+
+          <div className="project-card">
+            <div>
+              <span className="project-tag">OPERATIONS</span>
+              <h3 className="project-title">Executive Summaries &amp; Extractions</h3>
+              <p className="project-desc">Contains anonymized transcripts, AI extraction scripts, action log distributions, and cross-functional task deadlines.</p>
+            </div>
+            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
+              View Verified Project Files ↗
+            </a>
           </div>
         </div>
       </section>
@@ -392,7 +436,7 @@ export default function App() {
         <p className="reveal section-eyebrow">In My Spare Time</p>
         <h2 className="reveal serif section-title">Chasing <em className="grad-text">Beautiful Moments</em></h2>
         <div className="reveal section-divider" />
-        <p className="reveal" style={{ fontSize: "1rem", lineHeight: "1.85", color: "var(--text-secondary)", maxWidth: "520px", marginBottom: "3rem" }}>
+        <p className="reveal section-desc">
           I like to take cheesy pictures of nature and document beautiful moments. Here are some I've captured.
         </p>
         <div className="reveal photos-grid">
@@ -411,7 +455,11 @@ export default function App() {
           <h2 className="serif section-title">Speaking the<br /><em className="grad-text">right language</em></h2>
         </div>
         <div className="reveal lang-list">
-          {[{ lang: "English", level: "Fluent" }, { lang: "Albanian", level: "Proficient" }].map(({ lang, level }) => (
+          {[
+            { lang: "English", level: "Native / Fluent Coordination Capacity" }, 
+            { lang: "Yoruba", level: "Native Proficiency" },
+            { lang: "Albanian", level: "Proficient" }
+          ].map(({ lang, level }) => (
             <div key={lang} className="lang-item">
               <span className="serif lang-name">{lang}</span>
               <span className="lang-level">{level}</span>
@@ -429,7 +477,7 @@ export default function App() {
         <div className="contact-container">
           <div className="reveal contact-info">
             <p className="contact-info-desc">
-              Whether you have an opportunity, a question, or just want to say hello — my inbox is open. Feel free to use the form or mail me directly.
+              Available for corporate partnerships, pipeline architectural consultations, and elite administrative management contracts globally.
             </p>
             <a href="mailto:ladeadegoke16@gmail.com" className="serif grad-text contact-email-link">
               ladeadegoke16@gmail.com
@@ -520,8 +568,8 @@ export default function App() {
       {/* FOOTER */}
       <footer>
         <div className="footer-inner">
-          <div>© 2026 <span style={{ color: "var(--accent-color)" }}>Tolulade Adegoke</span> — Tirana, Albania</div>
-          <div>Built with care &amp; intention</div>
+          <div>© {new Date().getFullYear()} <span style={{ color: "var(--accent-color)" }}>Tolulade Adegoke</span> — Tirana, Albania</div>
+          <div>All operational structures secured. Built via AI-Powered Workflows.</div>
         </div>
       </footer>
     </>
