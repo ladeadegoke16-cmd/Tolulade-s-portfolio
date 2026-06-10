@@ -151,7 +151,7 @@ export default function App() {
       tag: "EXECUTIVE SUPPORT",
       title: "CEO Weekly Schedule",
       desc: "A structured 5-day executive calendar managing cross-timezone meetings, buffer blocks...",
-      link: "https://drive.google.com/file/d/1szQGvqLM2nxLCQLI-_iVbmSvDXyqHNrR/view?usp=sharing"
+      link: "https://drive.google.com/file/d/1szQGvqLM2nxLCQlI-_iVbmSvDXyqHNrR/view?usp=sharing"
     },
     {
       tag: "COMMUNICATION",
