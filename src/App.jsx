@@ -151,25 +151,25 @@ export default function App() {
       tag: "EXECUTIVE SUPPORT",
       title: "CEO Weekly Schedule",
       desc: "A structured 5-day executive calendar managing cross-timezone meetings, buffer blocks...",
-      link: "https://drive.google.com/file/d/1szQGvqLM2nxLCQLI-_iVbmSvDXyqHNrR/view?usp=drive_link"
+      link: "https://drive.google.com/file/d/1szQGvqLM2nxLCQLI-_iVbmSvDXyqHNrR/view?usp=sharing"
     },
     {
       tag: "COMMUNICATION",
       title: "Professional Email Templates",
       desc: "Three polished email templates covering client meeting confirmations, student inquiries...",
-      link: "https://drive.google.com/file/d/1hQY6OBnKyZaqdcwHrQCPfUSjsOuM3fsx/view?usp=drive_link"
+      link: "https://drive.google.com/file/d/1hQY6OBnKyZaqdcwHrQCPfUSjsOuM3fsx/view?usp=sharing"
     },
     {
       tag: "SOCIAL MEDIA",
       title: "2-Week Content Plan",
       desc: "A full content calendar across Instagram, TikTok, and Facebook — with captions...",
-      link: "https://drive.google.com/file/d/1v8UttQunHEyNQqyPNvmiuY47w5am64iS/view?usp=drive_link"
+      link: "https://drive.google.com/file/d/1v8UttQunHEyNQqyPNvmiuY47w5am64iS/view?usp=sharing"
     },
     {
       tag: "ADMISSIONS",
       title: "Student Onboarding Pack",
       desc: "An end-to-end admissions template covering student profiling, programme recommendations...",
-      link: "https://drive.google.com/file/d/1ANfHgbtWoTEy4IhQ7Nsq9EWZ-wsrUsm3/view?usp=drive_link"
+      link: "https://drive.google.com/file/d/1ANfHgbtWoTEy4IhQ7Nsq9EWZ-wsrUsm3/view?usp=sharing"
     }
   ];
 
