@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { PHOTO_1, PHOTO_2, PHOTO_3 } from "./data/photos";
+
+// SVG Sunset placeholders
+const photographyImages = [
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><defs><linearGradient id='g1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23FF1493'/><stop offset='50%' stop-color='%23FF69B4'/><stop offset='100%' stop-color='%231A0010'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23g1)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' fill='white'>Sunset Gradient View I</text></svg>",
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><defs><linearGradient id='g2' x1='100%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23800080'/><stop offset='60%' stop-color='%23FF69B4'/><stop offset='100%' stop-color='%23000000'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23g2)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' fill='white'>Sunset Gradient View II</text></svg>",
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'><defs><linearGradient id='g3' x1='0%' y1='100%' x2='100%' y2='0%'><stop offset='0%' stop-color='%23FF69B4'/><stop offset='40%' stop-color='%23FF4500'/><stop offset='100%' stop-color='%23111111'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23g3)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' fill='white'>Sunset Gradient View III</text></svg>"
+];
 
 export default function App() {
   const canvasRef = useRef(null);
@@ -9,10 +15,11 @@ export default function App() {
   // Theme state
   const [theme, setTheme] = useState("dark");
   
-  // AI Showcase state
+  // AI Showcase state (supports 3 tabs now)
   const [activeAiTab, setActiveAiTab] = useState("email");
+  const [demoStep, setDemoStep] = useState(0);
   
-  // Experience timeline state
+  // Experience timeline active tab
   const [activeExpIndex, setActiveExpIndex] = useState(0);
   
   // Contact Form state
@@ -21,10 +28,20 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
 
+  // Auto-play / Cycle through steps of the active AI workflow demo
+  useEffect(() => {
+    setDemoStep(0);
+    const interval = setInterval(() => {
+      setDemoStep((prev) => (prev < 3 ? prev + 1 : 0));
+    }, 3500); // Transitions step every 3.5 seconds
+    return () => clearInterval(interval);
+  }, [activeAiTab]);
+
   useEffect(() => {
     document.documentElement.className = theme;
   }, [theme]);
 
+  // Sparkle canvas background (high-performance canvas alternative to 260 absolute divs)
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -37,9 +54,9 @@ export default function App() {
       constructor() { this.reset(true); }
       reset(init) {
         this.x = Math.random()*W; this.y = init ? Math.random()*H : Math.random()*H;
-        this.size = Math.random()*2.0+0.3;
+        this.size = Math.random()*2.2+0.5;
         this.color = COLORS[Math.floor(Math.random()*COLORS.length)];
-        this.alpha = Math.random()*0.7+0.1; this.alphaDir = (Math.random()-0.5)*0.012;
+        this.alpha = Math.random()*0.7+0.2; this.alphaDir = (Math.random()-0.5)*0.012;
         this.vx = (Math.random()-0.5)*0.25; this.vy = (Math.random()-0.5)*0.25;
         this.angle = Math.random()*Math.PI*2; this.angleSpeed = (Math.random()-0.5)*0.04;
       }
@@ -72,32 +89,42 @@ export default function App() {
     return () => obs.disconnect();
   }, []);
 
-  const photos = [
-    { src: PHOTO_1, alt: "Rooftop sunset over the city" },
-    { src: PHOTO_2, alt: "Dramatic fiery sky over Tirana" },
-    { src: PHOTO_3, alt: "Golden sunset at the beach" },
-  ];
+  const navLinks = ["about", "experience", "showcase", "education", "photography", "languages", "contact"];
 
-  const navLinks = ["about", "projects", "experience", "education", "contact"];
-
-  const aiWorkflows = {
+  // Data Definitions for AI Terminal Live Simulations
+  const aiDemos = {
     email: {
-      title: "Email Triage Automation",
-      tag: "Client Relations & Communication",
-      desc: "Drafts highly polished, context-aware professional updates and organizes incoming stakeholder inquiries, ensuring critical operational messages are addressed promptly.",
-      mockup: "📥 Incoming Raw Data:\nUser Prompt: \"Review the pending client queries, draft professional updates matching the company tone, and flag items needing instant review.\"\n\n🔍 AI Triage Scanning:\nAnalyzing unread operational messages... Categorizing by urgency... Extracting action items...\n\n🤖 Execution Phase:\nDrafted context-aware follow-ups using executive tone matching. Flagged high-priority items.\n\n✅ Workflow Complete:\nStatus: 100% of inbox triaged. Drafts saved. Escalated items pushed to primary notification channel."
+      title: "Email Triage",
+      subtitle: "CLIENT RELATIONS & COMMUNICATION",
+      description: "Drafts highly polished, context-aware professional updates and organizes incoming stakeholder inquiries, ensuring critical operational messages are addressed promptly.",
+      steps: [
+        { label: "📥 Incoming Raw Data", content: "User Prompt: \"Review the pending client queries, draft professional updates matching the company tone, and flag items needing instant review.\"" },
+        { label: "🔍 AI Triage Scanning", content: "Analyzing unread operational messages... Categorizing by urgency... Extracting action items..." },
+        { label: "🤖 Execution Phase", content: "Drafted context-aware follow-ups using executive tone matching. Flagged high-priority items." },
+        { label: "✅ Workflow Complete", content: "Status: 100% of inbox triaged. Drafts saved. Escalated items pushed to primary notification channel." }
+      ]
     },
     calendar: {
-      title: "Smart Calendar Optimization",
-      tag: "Scheduling & Automation",
-      desc: "Autonomously schedules meetings across multiple time zones, coordinates overlapping requests, and creates necessary buffers to maximize CEO productivity.",
-      mockup: "📥 System Trigger:\nSystem Action: \"Calendar conflict resolved. Adjusted June 15 meeting to 4 PM CET, sent update notifications and brief prep documents.\"\n\n🔍 Friction Analysis:\nDetecting multi-timezone conflicts for upcoming European execution window. Overlap found at 14:00 CET.\n\n🤖 AI Optimization:\nRecalculating availability arrays... Applying mandatory 15-minute operational buffers between calls...\n\n✅ Workflow Complete:\nStatus: Rescheduled to 16:00 CET. Calendar sync locked. Briefing files packed and dispatched successfully."
+      title: "Calendar Sync",
+      subtitle: "SCHEDULING & AUTOMATION",
+      description: "Autonomously schedules meetings across multiple time zones, coordinates overlapping requests, and creates necessary buffers to maximize CEO productivity.",
+      steps: [
+        { label: "📥 System Trigger", content: "System Action: \"Calendar conflict resolved. Adjusted June 15 meeting to 4 PM CET, sent update notifications and brief prep documents.\"" },
+        { label: "🔍 Friction Analysis", content: "Detecting multi-timezone conflicts for upcoming European execution window. Overlap found at 14:00 CET." },
+        { label: "🤖 AI Optimization", content: "Recalculating availability arrays... Applying mandatory 15-minute operational buffers between calls..." },
+        { label: "✅ Workflow Complete", content: "Status: Rescheduled to 16:00 CET. Calendar sync locked. Briefing files packed and dispatched successfully." }
+      ]
     },
     summaries: {
-      title: "Meeting Action Item Extract",
-      tag: "Executive Operations",
-      desc: "Processes detailed meeting transcripts to extract core action items, assign deadlines, and compile executive summaries for distribution.",
-      mockup: "📥 Raw Audio Transcript Input:\nParsing 45-minute strategic whiteboard audio recording... Mapping vocal profiles...\n\n🔍 Extraction Logic Running:\nIdentifying deliverables, dates, and ownership milestones... Stripping out conversational noise...\n\n🤖 Live AI Output Generated:\nAI Output: \"Summary: WhiteRock Board Update. Action Items: 1. Tolulade to finalize partner reports (June 18) 2. Support team to...\"\n\n✅ Operational Sync Dispatched:\nStatus: Clean executive summaries structured. Action logs pushed directly to cross-functional trackers."
+      title: "Summaries",
+      subtitle: "EXECUTIVE OPERATIONS",
+      description: "Processes detailed meeting transcripts to extract core action items, assign deadlines, and compile executive summaries for distribution.",
+      steps: [
+        { label: "📥 Raw Audio Transcript Input", content: "Parsing 45-minute strategic whiteboard audio recording... Mapping vocal profiles..." },
+        { label: "🔍 Extraction Logic Running", content: "Identifying deliverables, dates, and ownership milestones... Stripping out conversational noise..." },
+        { label: "🤖 Live AI Output Generated", content: "AI Output: \"Summary: WhiteRock Board Update. Action Items: 1. Tolulade to finalize partner reports (June 18) 2. Support team to...\"" },
+        { label: "✅ Operational Sync Dispatched", content: "Status: Clean executive summaries structured. Action logs pushed directly to cross-functional trackers." }
+      ]
     }
   };
 
@@ -137,17 +164,7 @@ export default function App() {
         "Generated a 70% engagement increase across target distributions via deep data analytics and trend evaluation maps.",
         "Standardized content pipeline schedules to optimize automated publication grids across key audience touchpoints."
       ]
-    },
-    {
-      period: "2023 – 2024",
-      role: "Intern",
-      company: "WhiteRock — Tirana, Albania",
-      bullets: [
-        "Supported daily office operations and assisted team members with administrative and data entry tasks, processing up to 20 files daily",
-        "Contributed to departmental projects through background research and organizing shared digital resources",
-        "Welcomed visitors and directed inquiries to the appropriate personnel, ensuring excellent initial touchpoints"
-      ]
-    },
+    }
   ];
 
   const handleFormChange = (e) => {
@@ -188,8 +205,6 @@ export default function App() {
 
   return (
     <>
-      <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: "var(--star-canvas-opacity)" }} />
-
       {activePhoto && (
         <div className="lightbox" onClick={() => setActivePhoto(null)}>
           <img src={activePhoto} alt="Full size" />
@@ -198,9 +213,11 @@ export default function App() {
 
       {/* MOBILE MENU */}
       <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        <button onClick={() => setMenuOpen(false)} className="mobile-close-btn">✕</button>
+        <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "var(--text-secondary)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
         {navLinks.map(s => (
-          <a key={s} href={`#${s}`} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{s.charAt(0).toUpperCase() + s.slice(1)}</a>
+          <a key={s} href={`#${s === "showcase" ? "projects" : s}`} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>
+            {s === "showcase" ? "Projects" : s.charAt(0).toUpperCase() + s.slice(1)}
+          </a>
         ))}
       </div>
 
@@ -210,7 +227,11 @@ export default function App() {
           <a href="#hero" className="serif nav-brand">T. Adegoke</a>
           <ul className="desktop-nav">
             {navLinks.map(s => (
-              <li key={s}><a href={`#${s}`} className="nav-link">{s}</a></li>
+              <li key={s}>
+                <a href={`#${s === "showcase" ? "projects" : s}`} className="nav-link">
+                  {s === "showcase" ? "Projects" : s}
+                </a>
+              </li>
             ))}
             <li>
               <button 
@@ -231,16 +252,11 @@ export default function App() {
       {/* HERO */}
       <section id="hero" className="hero-section">
         <div className="hero-pad">
-          <p className="hero-eyebrow">Executive Assistant</p>
-          <h1 className="hero-name hero-name-size serif">
-            Tolulade<br /><em className="grad-text">Adegoke</em>
-          </h1>
-          <p className="hero-tagline">
-            Bridging communication, building connections, and keeping organisations moving — with precision and warmth.
-          </p>
+          <h1 className="hero-name hero-name-size serif">Tolulade Adegoke</h1>
+          <p className="hero-eyebrow" style={{ marginTop: "10px", marginBottom: "30px" }}>Executive Assistant</p>
           <div className="hero-cta">
-            <a href="#contact" className="btn-primary">Get in Touch</a>
-            <a href="#experience" className="btn-secondary">View Experience</a>
+            <a href="#projects" className="btn-primary">📂 View My Work</a>
+            <a href="#contact" className="btn-secondary">✉️ Contact Me</a>
           </div>
           <div className="scroll-hint">
             <span className="scroll-line" />
@@ -252,7 +268,7 @@ export default function App() {
       {/* ABOUT */}
       <section id="about" className="section-pad about-section">
         <p className="reveal section-eyebrow">Who I Am</p>
-        <h2 className="reveal serif section-title">Organised. Adaptable.<br /><em className="grad-text">People-first.</em></h2>
+        <h2 className="reveal serif section-title">About Me</h2>
         <div className="reveal section-divider" />
         <div className="about-grid">
           <div className="reveal about-text">
@@ -261,9 +277,6 @@ export default function App() {
             </p>
             <p>
               My approach fuses classic operational excellence with modern efficiency. My work includes building complex cross-timezone configurations, processing large-scale operational records, and crafting AI systems to translate speech-to-text audio inputs directly into organized target deadlines.
-            </p>
-            <p>
-              Currently pursuing a BSc. in Nursing at Western Balkans University, I bring both professional polish and genuine curiosity to everything I do.
             </p>
           </div>
           <div className="reveal">
@@ -278,7 +291,7 @@ export default function App() {
 
         {/* CLINICAL NURSING SKILLS */}
         <div className="reveal" style={{ marginTop: "6rem" }}>
-          <p className="section-eyebrow">Healthcare Training</p>
+          <p className="section-eyebrow">Healthcare &amp; Care Training</p>
           <h2 className="serif section-title">Clinical &amp; <em className="grad-text">Care Skills</em></h2>
           <div className="section-divider" />
           <div className="clinical-grid">
@@ -293,92 +306,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* PROJECTS & CASE STUDIES */}
-      <section id="projects" className="section-pad photos-section">
-        <p className="reveal section-eyebrow">Interactive Showcase &amp; Case Studies</p>
-        <h2 className="reveal serif section-title">Interactive Showcase &amp; <em className="grad-text">Case Studies</em></h2>
-        <div className="reveal section-divider" />
-        <p className="reveal section-desc" style={{ maxWidth: "600px" }}>
-          Interact with the live simulator dashboard to see AI automations play out, or browse the verified external project folders.
-        </p>
-
-        {/* 1. Live Simulated AI Terminal */}
-        <div className="reveal ai-showcase-container" style={{ marginBottom: "5rem" }}>
-          <div className="ai-sidebar">
-            <button className={`ai-tab-btn ${activeAiTab === "email" ? "active" : ""}`} onClick={() => setActiveAiTab("email")}>
-              <span className="ai-tab-title">Email Triage</span>
-              <span className="ai-tab-subtitle">Communication</span>
-            </button>
-            <button className={`ai-tab-btn ${activeAiTab === "calendar" ? "active" : ""}`} onClick={() => setActiveAiTab("calendar")}>
-              <span className="ai-tab-title">Calendar Sync</span>
-              <span className="ai-tab-subtitle">Scheduling</span>
-            </button>
-            <button className={`ai-tab-btn ${activeAiTab === "summaries" ? "active" : ""}`} onClick={() => setActiveAiTab("summaries")}>
-              <span className="ai-tab-title">Summaries</span>
-              <span className="ai-tab-subtitle">Operations</span>
-            </button>
-          </div>
-          <div className="ai-content">
-            <span className="ai-detail-tag">{aiWorkflows[activeAiTab].tag}</span>
-            <h3 className="ai-detail-title">{aiWorkflows[activeAiTab].title}</h3>
-            <p className="ai-detail-desc">{aiWorkflows[activeAiTab].desc}</p>
-            <div className="ai-mockup-box">
-              <strong>Showcase Demo:</strong><br />
-              {aiWorkflows[activeAiTab].mockup.split('\n\n').map((para, idx) => (
-                <p key={idx} style={{ marginTop: idx > 0 ? "0.5rem" : 0 }}>{para}</p>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* 2. Confidentiality Banner */}
-        <div className="reveal confidentiality-banner">
-          <p>
-            ⚠️ <strong>Confidentiality Notice:</strong> All projects displayed inside the external repositories are mock or real-life scenario-based case studies created strictly for portfolio demonstration purposes only. No real executive data, client files, or confidential corporate records are included.
-          </p>
-        </div>
-
-        {/* 3. Google Drive Case Studies Grid */}
-        <div className="reveal projects-grid-resp">
-          <div className="project-card">
-            <div>
-              <span className="project-tag">AI WORKFLOWS</span>
-              <h3 className="project-title">Inbox Architecture &amp; Communication</h3>
-              <p className="project-desc">Contains structured triage models, quick response matrices, and systemized priority configurations for handling massive inbox volumes.</p>
-            </div>
-            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
-              View Verified Project Files ↗
-            </a>
-          </div>
-
-          <div className="project-card">
-            <div>
-              <span className="project-tag">SCHEDULING</span>
-              <h3 className="project-title">Calendar Optimization Models</h3>
-              <p className="project-desc">Contains live multi-timezone tracking samples, buffer parameters, and automated conflict-resolution mapping variables.</p>
-            </div>
-            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
-              View Verified Project Files ↗
-            </a>
-          </div>
-
-          <div className="project-card">
-            <div>
-              <span className="project-tag">OPERATIONS</span>
-              <h3 className="project-title">Executive Summaries &amp; Extractions</h3>
-              <p className="project-desc">Contains anonymized transcripts, AI extraction scripts, action log distributions, and cross-functional task deadlines.</p>
-            </div>
-            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="project-link">
-              View Verified Project Files ↗
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* EXPERIENCE */}
       <section id="experience" className="section-pad experience-section">
         <p className="reveal section-eyebrow">Career Journey</p>
-        <h2 className="reveal serif section-title">Where I've<br /><em className="grad-text">Made an Impact</em></h2>
+        <h2 className="reveal serif section-title">Professional Experience</h2>
         <div className="reveal section-divider" />
         
         <div className="reveal timeline-container">
@@ -410,39 +341,134 @@ export default function App() {
         </div>
       </section>
 
-      {/* EDUCATION */}
-      <section id="education" className="section-pad about-section">
-        <p className="reveal section-eyebrow">Academic Background</p>
-        <h2 className="reveal serif section-title">Learning &amp;<br /><em className="grad-text">Growing</em></h2>
+      {/* CASE STUDIES & PROJECT PORTFOLIOS */}
+      <section id="projects" className="section-pad about-section">
+        <p className="reveal section-eyebrow">Interactive Showcase</p>
+        <h2 className="reveal serif section-title">Case Studies &amp; <em className="grad-text">Demos</em></h2>
         <div className="reveal section-divider" />
-        <div className="edu-grid-resp">
-          {[
-            { school: "Western Balkans University", degree: "BSc. in Nursing", year: "2025 – Ongoing" },
-            { school: "Online Business School", degree: "Level 5 Diploma — Health & Social Care", year: "2024 – Ongoing" },
-            { school: "Yaba College of Technology", degree: "OND — Mass Communication", year: "2022 – 2024" },
-            { school: "Bammy College", degree: "O'Level", year: "2020" },
-          ].map(({ school, degree, year }) => (
-            <div key={school} className="reveal edu-card">
-              <p className="edu-school">{school}</p>
-              <h3 className="serif edu-degree">{degree}</h3>
-              <p className="edu-year">{year}</p>
+        <p className="reveal" style={{ color: "var(--text-secondary)", marginBottom: "30px", fontSize: "1.05rem", maxWidth: "600px" }}>
+          Interact with the live simulator dashboard to see AI automations play out, or browse the verified external project folders.
+        </p>
+
+        {/* Live Simulated AI Terminal */}
+        <div className="reveal ai-showcase-container">
+          <div className="ai-sidebar">
+            <button className={`ai-tab-btn ${activeAiTab === "email" ? "active" : ""}`} onClick={() => setActiveAiTab("email")}>
+              <span className="ai-tab-title">Email Triage</span>
+              <span className="ai-tab-subtitle">COMMUNICATION</span>
+            </button>
+            <button className={`ai-tab-btn ${activeAiTab === "calendar" ? "active" : ""}`} onClick={() => setActiveAiTab("calendar")}>
+              <span className="ai-tab-title">Calendar Sync</span>
+              <span className="ai-tab-subtitle">SCHEDULING</span>
+            </button>
+            <button className={`ai-tab-btn ${activeAiTab === "summaries" ? "active" : ""}`} onClick={() => setActiveAiTab("summaries")}>
+              <span className="ai-tab-title">Summaries</span>
+              <span className="ai-tab-subtitle">OPERATIONS</span>
+            </button>
+          </div>
+          <div className="ai-content">
+            <span className="ai-detail-tag">{aiDemos[activeAiTab].subtitle}</span>
+            <h3 className="ai-detail-title">{aiDemos[activeAiTab].title}</h3>
+            <p className="ai-detail-desc">{aiDemos[activeAiTab].description}</p>
+            
+            {/* Live Terminal Log Sandbox */}
+            <div className="ai-mockup-box" style={{ marginTop: "1rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", borderBottom: "1px solid var(--border-color)", paddingBottom: "6px" }}>
+                <strong style={{ color: "var(--accent-color)" }}>Live Simulator Log</strong>
+                <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>Auto-playing...</span>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {aiDemos[activeAiTab].steps.map((step, idx) => (
+                  <div 
+                    key={idx} 
+                    style={{ 
+                      transition: "opacity 0.4s ease, color 0.4s ease",
+                      opacity: idx <= demoStep ? 1 : 0.25,
+                      color: idx === demoStep ? "var(--text-light)" : "var(--text-secondary)"
+                    }}
+                  >
+                    <strong style={{ color: idx === demoStep ? "var(--accent-color)" : "var(--text-muted)" }}>
+                      {step.label}:
+                    </strong>{" "}
+                    {step.content}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+          </div>
+        </div>
+
+        {/* Confidentiality Notice */}
+        <div className="reveal" style={{
+          borderLeft: "4px solid var(--accent-color)",
+          backgroundColor: "var(--bg-card)",
+          padding: "20px",
+          borderRadius: "4px",
+          marginTop: "3rem",
+          marginBottom: "3rem"
+        }}>
+          <p style={{ margin: 0, fontSize: "0.95rem", lineHeight: "1.6", color: "var(--text-primary)" }}>
+            ⚠️ <strong>Confidentiality Notice:</strong> All projects displayed inside the external repositories are mock or real-life scenario-based case studies created strictly for portfolio demonstration purposes only. No real executive data, client files, or confidential corporate records are included.
+          </p>
+        </div>
+
+        {/* External Drive Folders Grid */}
+        <div className="reveal edu-grid-resp">
+          <div className="edu-card">
+            <span className="edu-school" style={{ backgroundColor: "rgba(236,72,153,0.1)", padding: "4px 8px", borderRadius: "12px", fontSize: "0.7rem" }}>AI WORKFLOWS</span>
+            <h3 className="serif edu-degree" style={{ marginTop: "1rem" }}>Inbox Architecture</h3>
+            <p className="edu-year" style={{ marginTop: "0.5rem", lineHeight: "1.5" }}>Contains structured triage models, quick response matrices, and systemized priority configurations for handling massive inbox volumes.</p>
+            <a href="YOUR_GOOGLE_DRIVE_FOLDER_LINK_HERE" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "1.2rem", color: "var(--accent-color)", textDecoration: "none", fontWeight: "500" }}>View Project Files ↗</a>
+          </div>
+
+          <div className="edu-card">
+            <span className="edu-school" style={{ backgroundColor: "rgba(236,72,153,0.1)", padding: "4px 8px", borderRadius: "12px", fontSize: "0.7rem" }}>SCHEDULING</span>
+            <h3 className="serif edu-degree" style={{ marginTop: "1rem" }}>Calendar Optimization</h3>
+            <p className="edu-year" style={{ marginTop: "0.5rem", lineHeight: "1.5" }}>Contains live multi-timezone tracking samples, buffer parameters, and automated conflict-resolution mapping variables.</p>
+            <a href="YOUR_GOOGLE_DRIVE_FOLDER_LINK_HERE" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "1.2rem", color: "var(--accent-color)", textDecoration: "none", fontWeight: "500" }}>View Project Files ↗</a>
+          </div>
+
+          <div className="edu-card">
+            <span className="edu-school" style={{ backgroundColor: "rgba(236,72,153,0.1)", padding: "4px 8px", borderRadius: "12px", fontSize: "0.7rem" }}>OPERATIONS</span>
+            <h3 className="serif edu-degree" style={{ marginTop: "1rem" }}>Summaries &amp; Extractions</h3>
+            <p className="edu-year" style={{ marginTop: "0.5rem", lineHeight: "1.5" }}>Contains anonymized transcripts, AI extraction scripts, action log distributions, and cross-functional task deadlines.</p>
+            <a href="YOUR_GOOGLE_DRIVE_FOLDER_LINK_HERE" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: "1.2rem", color: "var(--accent-color)", textDecoration: "none", fontWeight: "500" }}>View Project Files ↗</a>
+          </div>
         </div>
       </section>
 
-      {/* PHOTOS */}
-      <section id="photos" className="section-pad photos-section">
-        <p className="reveal section-eyebrow">In My Spare Time</p>
-        <h2 className="reveal serif section-title">Chasing <em className="grad-text">Beautiful Moments</em></h2>
+      {/* EDUCATION */}
+      <section id="education" className="section-pad about-section">
+        <p className="reveal section-eyebrow">Academic Background</p>
+        <h2 className="reveal serif section-title">Education &amp; Training</h2>
         <div className="reveal section-divider" />
-        <p className="reveal section-desc">
-          I like to take cheesy pictures of nature and document beautiful moments. Here are some I've captured.
+        <div className="reveal" style={{ display: "flex", flexDirection: "column", gap: "32px", marginTop: "3.5rem" }}>
+          <div style={{ borderLeft: "2px solid var(--accent-color)", paddingLeft: "1.5rem" }}>
+            <h3 className="serif edu-degree" style={{ margin: 0 }}>BSc. Nursing</h3>
+            <span className="edu-school" style={{ fontSize: "0.9rem", display: "inline-block", marginTop: "0.2rem" }}>Western Balkans University | 2025 – Ongoing</span>
+            <p style={{ color: "var(--text-secondary)", marginTop: "0.5rem", fontSize: "0.95rem", lineHeight: "1.6" }}>Developing structured, clinical assessment techniques and administrative healthcare system foundations.</p>
+          </div>
+
+          <div style={{ borderLeft: "2px solid var(--border-color)", paddingLeft: "1.5rem" }}>
+            <h3 className="serif edu-degree" style={{ margin: 0 }}>Health &amp; Social Care Diploma</h3>
+            <span className="edu-school" style={{ fontSize: "0.9rem", display: "inline-block", marginTop: "0.2rem" }}>Online Business School (OBS) | 2024 – Ongoing</span>
+            <p style={{ color: "var(--text-secondary)", marginTop: "0.5rem", fontSize: "0.95rem", lineHeight: "1.6" }}>Focused on modern care execution standards and structural facility admin parameters.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PHOTOGRAPHY */}
+      <section id="photography" className="section-pad photos-section">
+        <p className="reveal section-eyebrow">In My Spare Time</p>
+        <h2 className="reveal serif section-title">Photography Portfolio</h2>
+        <div className="reveal section-divider" />
+        <p className="reveal" style={{ fontSize: "1rem", lineHeight: "1.85", color: "var(--text-secondary)", maxWidth: "520px", marginBottom: "3rem" }}>
+          Captured views and environmental landscapes.
         </p>
         <div className="reveal photos-grid">
-          {photos.map(({ src, alt }, i) => (
-            <div key={i} className="photo-card" onClick={() => setActivePhoto(src)}>
-              <img src={src} alt={alt} />
+          {photographyImages.map((imgSrc, index) => (
+            <div key={index} className="photo-card" onClick={() => setActivePhoto(imgSrc)}>
+              <img src={imgSrc} alt={`Sunset ${index + 1}`} />
             </div>
           ))}
         </div>
@@ -452,17 +478,16 @@ export default function App() {
       <div className="lang-section">
         <div className="reveal">
           <p className="section-eyebrow">Communication</p>
-          <h2 className="serif section-title">Speaking the<br /><em className="grad-text">right language</em></h2>
+          <h2 className="serif section-title">Languages</h2>
         </div>
         <div className="reveal lang-list">
           {[
-            { lang: "English", level: "Native / Fluent Coordination Capacity" }, 
-            { lang: "Yoruba", level: "Native Proficiency" },
-            { lang: "Albanian", level: "Proficient" }
+            { lang: "English", level: "Native / Fluent Coordination Capacity" },
+            { lang: "Yoruba", level: "Native Proficiency" }
           ].map(({ lang, level }) => (
-            <div key={lang} className="lang-item">
-              <span className="serif lang-name">{lang}</span>
-              <span className="lang-level">{level}</span>
+            <div key={lang} className="lang-item" style={{ textAlign: "left" }}>
+              <span className="serif lang-name" style={{ display: "inline" }}>{lang}</span>
+              <span className="lang-level" style={{ display: "block", marginTop: "0.3rem" }}>{level}</span>
             </div>
           ))}
         </div>
@@ -471,7 +496,7 @@ export default function App() {
       {/* CONTACT */}
       <section id="contact" className="section-pad contact-section">
         <p className="reveal section-eyebrow">Get In Touch</p>
-        <h2 className="reveal serif section-title">Let's <em className="grad-text">Connect</em></h2>
+        <h2 className="reveal serif section-title">Let's Build Together</h2>
         <div className="reveal section-divider" />
         
         <div className="contact-container">
@@ -482,7 +507,7 @@ export default function App() {
             <a href="mailto:ladeadegoke16@gmail.com" className="serif grad-text contact-email-link">
               ladeadegoke16@gmail.com
             </a>
-            <div className="contact-details">
+            <div className="contact-details" style={{ marginTop: "1rem" }}>
               <span>📞 +355 68 832 5692</span>
               <span>📍 Tirana, Albania</span>
               <span>References available on request</span>
@@ -568,8 +593,8 @@ export default function App() {
       {/* FOOTER */}
       <footer>
         <div className="footer-inner">
-          <div>© {new Date().getFullYear()} <span style={{ color: "var(--accent-color)" }}>Tolulade Adegoke</span> — Tirana, Albania</div>
-          <div>All operational structures secured. Built via AI-Powered Workflows.</div>
+          <div>&copy; {new Date().getFullYear()} Tolulade Adegoke. All operational structures secured. Built via AI-Powered Workflows.</div>
+          <div>Built with care &amp; intention</div>
         </div>
       </footer>
     </>
